@@ -1,0 +1,27 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/Ramupasupuleti011/dockerprojectmramu.git'
+            }
+        }
+        stage('build') {
+            steps {
+                sh 'docker build -t $image .'
+            }
+        }
+        stage('tag') {
+            steps {
+                sh 'docker tag $image $repos'
+            }
+        }
+        stage('push') {
+            steps {
+                sh 'docker login -u  -p '
+                sh 'docker push $repos:latest'
+            }
+        }
+    }
+}
